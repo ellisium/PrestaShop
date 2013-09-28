@@ -289,7 +289,7 @@ class TabCore extends ObjectModel
 		if (!Validate::isModuleName($module))
 			return array();
 
-		$tabs = new Collection('Tab', (int)$id_lang);
+		$tabs = new Collection_hhvm('Tab', (int)$id_lang);
 		$tabs->where('module', '=', $module);
 		return $tabs;
 	}
