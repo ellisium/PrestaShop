@@ -102,6 +102,7 @@ public function load($classname)
 
 		// regenerate the class index if the requested class is not found in the index or if the requested file 
 
+//big dropdown hhvm performance need to fix it later 
 		/*if (!isset($this->index[$classname])
 			|| ($this->index[$classname] && is_file($this->root_dir.$this->index[$classname])==false)
 			|| (isset($this->index[$classname.'Core']) && $this->index[$classname.'Core'] && is_file($this->root_dir.$this->index[$classname.'Core'])==false)){ 
