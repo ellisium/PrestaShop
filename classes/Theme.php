@@ -45,7 +45,7 @@ class ThemeCore extends ObjectModel
 
 	public static function getThemes()
 	{
-		$themes = new Collection('Theme');
+		$themes = new Collection_hhvm('Theme');
 		$themes->orderBy('name');
 		return $themes;
 	}
