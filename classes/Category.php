@@ -727,7 +727,7 @@ class CategoryCore extends ObjectModel
 		if (is_null($id_lang))
 			$id_lang = Context::getContext()->language->id;
 
-		$categories = new Collection('Category', $id_lang);
+		$categories = new Collection_hhvm('Category', $id_lang);
 		$categories->where('nleft', '>', $this->nleft);
 		$categories->where('nright', '<', $this->nright);
 		return $categories;
