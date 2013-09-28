@@ -29,7 +29,7 @@
  *
  * @since 1.5.0
  */
-class CollectionCore implements Iterator, ArrayAccess, Countable
+class Collection_hhvmCore implements Iterator, ArrayAccess, Countable
 {
 	const LEFT_JOIN = 1;
 	const INNER_JOIN = 2;
