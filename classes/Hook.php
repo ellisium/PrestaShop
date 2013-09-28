@@ -299,14 +299,17 @@ class HookCore extends ObjectModel
 				else
 					$groups = array((int)Configuration::get('PS_UNIDENTIFIED_GROUP'));
 			}
-			
+			//akuma
+			$l=implode(', ', $shop_list);
+			if(sizeof($l)==1){$l=1;}
+			//akuma
 			// SQL Request
 			$sql = new DbQuery();
 			$sql->select('h.`name` as hook, m.`id_module`, h.`id_hook`, m.`name` as module, h.`live_edit`');
 			$sql->from('module', 'm');
 			$sql->innerJoin('hook_module', 'hm', 'hm.`id_module` = m.`id_module`');
 			$sql->innerJoin('hook', 'h', 'hm.`id_hook` = h.`id_hook`');
-			$sql->where('(SELECT COUNT(*) FROM '._DB_PREFIX_.'module_shop ms WHERE ms.id_module = m.id_module AND ms.id_shop IN ('.implode(', ', $shop_list).')) = '.count($shop_list));
+			$sql->where('(SELECT COUNT(*) FROM '._DB_PREFIX_.'module_shop ms WHERE ms.id_module = m.id_module AND ms.id_shop IN ('.$l.')) = '.count($shop_list));
 			if ($hook_name != 'displayPayment')
 				$sql->where('h.name != "displayPayment"');
 			// For payment modules, we check that they are available in the contextual country
