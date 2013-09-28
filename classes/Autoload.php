@@ -76,30 +76,78 @@ class Autoload
 	 *
 	 * @param string $classname
 	 */
-	public function load($classname)
+public function load($classname)
 	{
-		// Smarty uses its own autoloader, so we exclude all Smarty classes
+
+	//akuma
+	if ($classname == "TaxCalculator"){
+		require($this->root_dir.$this->index[$classname.'Core']);
+		class TaxCalculator extends TaxCalculatorCore {}
+		return;
+	}
+	if ($classname == "OrderInvoice"){
+		require($this->root_dir.$this->index[$classname.'Core']);
+		class OrderInvoice extends OrderInvoiceCore {}
+		return;
+	}
+	if($classname == 'Db'){
+		require($this->root_dir.$this->index[$classname.'Core']);
+
+		abstract class Db extends DbCore {}
+		return;
+	}
+	// Smarty uses its own autoloader, so we exclude all Smarty classes
 		if (strpos(strtolower($classname), 'smarty_') === 0)
 			return;
 
-		// regenerate the class index if the requested file doesn't exists
-		if ((isset($this->index[$classname]) && $this->index[$classname] && !is_file($this->root_dir.$this->index[$classname]))
-			|| (isset($this->index[$classname.'Core']) && $this->index[$classname.'Core'] && !is_file($this->root_dir.$this->index[$classname.'Core'])))
-			$this->generateIndex();
+		// regenerate the class index if the requested class is not found in the index or if the requested file 
 
+		/*if (!isset($this->index[$classname])
+			|| ($this->index[$classname] && is_file($this->root_dir.$this->index[$classname])==false)
+			|| (isset($this->index[$classname.'Core']) && $this->index[$classname.'Core'] && is_file($this->root_dir.$this->index[$classname.'Core'])==false)){ 
+			$this->generateIndex();
+		}*/
+
+		if(!file_exists($this->root_dir.Autoload::INDEX_FILE))
+			$this->generateIndex();
 		// If $classname has not core suffix (E.g. Shop, Product)
 		if (substr($classname, -4) != 'Core')
 		{
 			// If requested class does not exist, load associated core class
 			if (isset($this->index[$classname]) && !$this->index[$classname])
 			{
-				require($this->root_dir.$this->index[$classname.'Core']);
+			require($this->root_dir.$this->index[$classname.'Core']);
+			$class_infos = new ReflectionClass($classname.'Core');
+			//akuma		
+	
+				if($class_infos->isAbstract()){
+				if(!file_exists($this->root_dir.'classes/autoload/classes/abstract_'.$classname.'.php')){
+					$my_file = $this->root_dir.'classes/autoload/classes/abstract_'.$classname.'.php';
+					$handle = fopen($my_file, 'w') or die('Cannot open file:  '.$my_file);
+					$data ='<?php abstract class '.$classname.' extends '.$classname.'Core {} ?>';
+					fwrite($handle, $data);
+					require_once($this->root_dir.'classes/autoload/classes/abstract_'.$classname.'.php');
+				}else{
+					require_once($this->root_dir.'classes/autoload/classes/abstract_'.$classname.'.php');
+				}
+				}else{
+				if(!file_exists($this->root_dir.'classes/autoload/classes/'.$classname.'.php')){
+					$my_file = $this->root_dir.'classes/autoload/classes/'.$classname.'.php';
+					$handle = fopen($my_file, 'w') or die('Cannot open file:  '.$my_file);
+					$data ='<?php class '.$classname.' extends '.$classname.'Core {} ?>';	
+					fwrite($handle, $data);
+					require_once($this->root_dir.'classes/autoload/classes/'.$classname.'.php');
+				}else{
+					require_once($this->root_dir.'classes/autoload/classes/'.$classname.'.php');
+				}
+				}
 
 				// Since the classname does not exists (we only have a classCore class), we have to emulate the declaration of this class
-				$class_infos = new ReflectionClass($classname.'Core');
-				eval(($class_infos->isAbstract() ? 'abstract ' : '').'class '.$classname.' extends '.$classname.'Core {}');
-			}
-			else
+				
+				//eval(($class_infos->isAbstract() ? 'abstract ' : '').'class '.$classname.' extends '.$classname.'Core {}');
+			
+			//akuma
+			}else
 			{
 				// request a non Core Class load the associated Core class if exists
 				if (isset($this->index[$classname.'Core']))
@@ -111,7 +159,9 @@ class Autoload
 		// Call directly ProductCore, ShopCore class
 		else
 			require($this->root_dir.$this->index[$classname]);
+
 	}
+
 
 	/**
 	 * Generate classes index
