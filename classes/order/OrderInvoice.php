@@ -567,7 +567,7 @@ class OrderInvoiceCore extends ObjectModel
 		foreach ($invoices as $invoice)
 			$invoice_list[] = $invoice['id_order_invoice'];
 		
-		$payments = new Collection('OrderInvoice');
+		$payments = new Collection_hhvm('OrderInvoice');
 		$payments->where('id_order_invoice', 'IN', $invoice_list);
 		
 		return $payments;
