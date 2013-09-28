@@ -125,12 +125,14 @@ class ConfigurationTestCore
 	}
 
 	public static function test_upload()
-	{
+	{	$n=$_SERVER['SERVER_SOFTWARE'];
+		if($n== 'HPHP' || $n== 'NODEJS' )return true;
 		return ini_get('file_uploads');
 	}
 
 	public static function test_fopen()
-	{
+	{	$n=$_SERVER['SERVER_SOFTWARE'];
+		if($n== 'HPHP' || $n== 'NODEJS' )return true;
 		return ini_get('allow_url_fopen');
 	}
 
