@@ -245,6 +245,7 @@ class CartControllerCore extends FrontController
 				$this->context->cart->add();
 				if ($this->context->cart->id)
 					$this->context->cookie->id_cart = (int)$this->context->cart->id;
+					$this->context->cookie->write();
 			}
 
 			// Check customizable fields
