@@ -704,7 +704,7 @@ class ShopCore extends ObjectModel
 	 */
 	public static function getShopsCollection($active = true, $id_shop_group = null)
 	{
-		$shops = new Collection('Shop');
+		$shops = new Collection_hhvm('Shop');
 		if ($active)
 			$shops->where('active', '=', 1);
 
