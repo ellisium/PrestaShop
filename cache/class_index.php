@@ -257,7 +257,7 @@
   'CmsController' => '',
   'CmsControllerCore' => 'controllers/front/CmsController.php',
   'Collection_hhvm' => '',
-  'Collection_hhvmCore' => 'classes/Collection.php',
+  'Collection_hhvmCore' => 'classes/Collection_hhvm.php',
   'Combination' => '',
   'CombinationCore' => 'classes/Combination.php',
   'CompareController' => '',
