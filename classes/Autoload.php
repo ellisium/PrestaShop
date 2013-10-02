@@ -96,6 +96,12 @@ public function load($classname)
 		abstract class Db extends DbCore {}
 		return;
 	}
+	if($classname == 'Cart'){
+		require($this->root_dir.$this->index[$classname.'Core']);
+
+		class Cart extends CartCore {}
+		return;
+	}
 	// Smarty uses its own autoloader, so we exclude all Smarty classes
 		if (strpos(strtolower($classname), 'smarty_') === 0)
 			return;
