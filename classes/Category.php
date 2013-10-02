@@ -1000,8 +1000,10 @@ class CategoryCore extends ObjectModel
 	{
 		foreach ($groups as $group)
 		{
+			if($group){
 			$row = array('id_category' => (int)$this->id, 'id_group' => (int)$group);
 			Db::getInstance()->insert('category_group', $row);
+			}
 		}
 	}
 
