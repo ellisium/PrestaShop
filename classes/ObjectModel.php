@@ -1516,7 +1516,7 @@ abstract class ObjectModelCore
 			$definition['classname'] = $class;
 
 			if (!empty($definition['multilang']))
-				$definition['associations'][Collection::LANG_ALIAS] = array(
+				$definition['associations'][Collection_hhvm::LANG_ALIAS] = array(
 					'type' => self::HAS_MANY,
 					'field' => $definition['primary'],
 					'foreign_field' => $definition['primary'],
