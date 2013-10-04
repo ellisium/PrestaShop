@@ -27,7 +27,7 @@
 /**
  * @deprecated 1.5.0 This file is deprecated, use moduleFrontController instead
  */
-
+function bankwire_validation_func(){
 include(dirname(__FILE__).'/../../config/config.inc.php');
 include(dirname(__FILE__).'/../../header.php');
 include(dirname(__FILE__).'/bankwire.php');
@@ -62,3 +62,5 @@ $bankwire->validateOrder($cart->id, Configuration::get('PS_OS_BANKWIRE'), $total
 
 $order = new Order($bankwire->currentOrder);
 Tools::redirect('index.php?controller=order-confirmation&id_cart='.$cart->id.'&id_module='.$bankwire->id.'&id_order='.$bankwire->currentOrder.'&key='.$customer->secure_key);
+}
+bankwire_validation_func();
