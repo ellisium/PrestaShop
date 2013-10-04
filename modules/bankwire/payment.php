@@ -27,7 +27,7 @@
 /**
  * @deprecated 1.5.0 This file is deprecated, use moduleFrontController instead
  */
-
+function bankwire_payment_func(){
 /* SSL Management */
 $useSSL = true;
 
@@ -39,3 +39,5 @@ $controller = new FrontController();
 $controller->init();
 
 Tools::redirect(Context::getContext()->link->getModuleLink('bankwire', 'payment'));
+}
+bankwire_payment_func();
