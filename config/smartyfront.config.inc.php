@@ -23,7 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
+function def_smarty_frontconfig(){
 global $smarty;
 $smarty->setTemplateDir(_PS_THEME_DIR_.'tpl');
 
@@ -31,10 +31,11 @@ if (Configuration::get('PS_HTML_THEME_COMPRESSION'))
 	$smarty->registerFilter('output', 'smartyMinifyHTML');
 if (Configuration::get('PS_JS_HTML_THEME_COMPRESSION'))
 	$smarty->registerFilter('output', 'smartyPackJSinHTML');
-
+}
+def_smarty_frontconfig();
 function smartyTranslate($params, &$smarty)
 {
-	global $_LANG;
+	global $_LANG, $smarty;
 
 	if (!isset($params['js'])) $params['js'] = false;
 	if (!isset($params['pdf'])) $params['pdf'] = false;
