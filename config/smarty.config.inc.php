@@ -24,7 +24,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 global $smarty;
-function def(){
+function def_smarty(){
 global $smarty;
 define('_PS_SMARTY_DIR_', _PS_TOOL_DIR_.'smarty/');
 
@@ -85,7 +85,7 @@ smartyRegisterFunction($smarty, 'function', 'displayAddressDetail', array('Addre
 smartyRegisterFunction($smarty, 'function', 'getWidthSize', array('Image', 'getWidth'));
 smartyRegisterFunction($smarty, 'function', 'getHeightSize', array('Image', 'getHeight'));
 }
-def();
+def_smarty();
 
 function smartyDieObject($params, &$smarty)
 {
