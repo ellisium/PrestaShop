@@ -23,7 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
+function def_uri(){
 /* Theme URLs */
 define('_PS_THEME_DIR_',   _PS_ROOT_DIR_.'/themes/'._THEME_NAME_.'/');
 define('_THEMES_DIR_',     __PS_BASE_URI__.'themes/');
@@ -79,3 +79,5 @@ define('_PS_CSS_DIR_',              __PS_BASE_URI__.'css/');
 define('_THEME_PROD_PIC_DIR_', 	__PS_BASE_URI__.'upload/');
 define('_MAIL_DIR_',        	__PS_BASE_URI__.'mails/');
 define('_MODULE_DIR_',        	__PS_BASE_URI__.'modules/');
+}
+def_uri();
