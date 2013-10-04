@@ -1,4 +1,7 @@
-<?php return array (
+<?php 
+return def_cache_class();
+function def_cache_class(){
+return array (
   'AbstractLogger' => '',
   'AbstractLoggerCore' => 'classes/log/AbstractLogger.php',
   'Address' => '',
@@ -638,4 +641,4 @@
   'WebserviceSpecificManagementSearchCore' => 'classes/webservice/WebserviceSpecificManagementSearch.php',
   'Zone' => '',
   'ZoneCore' => 'classes/Zone.php',
-); ?>
+); }?>
