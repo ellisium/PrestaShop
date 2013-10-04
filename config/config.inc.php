@@ -23,7 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
+function def_config(){
 require_once(dirname(__FILE__).'/defines.inc.php');
 $start_time = microtime(true);
 
@@ -227,3 +227,5 @@ define('_PS_OS_WS_PAYMENT_', Configuration::get('PS_OS_WS_PAYMENT'));
 /* Get smarty */
 require_once(dirname(__FILE__).'/smarty.config.inc.php');
 $context->smarty = $smarty;
+}
+def_config();
