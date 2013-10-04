@@ -23,7 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
+function def(){
 /* Debug only */
 define('_PS_MODE_DEV_', true);
 if (_PS_MODE_DEV_)
@@ -164,4 +164,5 @@ define('_PS_SMARTY_CONSOLE_OPEN_BY_URL_', 1);
 define('_PS_SMARTY_CONSOLE_OPEN_', 2);
 
 define('_PS_JQUERY_VERSION_', '1.7.2');
-
+}
+def();
