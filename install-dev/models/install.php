@@ -96,9 +96,11 @@ class InstallModelInstall extends InstallAbstractModel
 			$settings_constants['_RIJNDAEL_IV_'] = base64_encode(mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB), MCRYPT_RAND));
 		}
 
-		$settings_content = "<?php\n";
+		$settings_content = "<?php\n function def_settings(){";
 		foreach ($settings_constants as $constant => $value)
 			$settings_content .= "define('$constant', '".str_replace('\'', '\\\'', $value)."');\n";
+		$settings_content .="}";
+		$settings_content .="def_settings();";
 		if (!file_put_contents(_PS_ROOT_DIR_.'/'.self::SETTINGS_FILE, $settings_content))
 		{
 			$this->setError($this->language->l('Cannot write settings file'));
