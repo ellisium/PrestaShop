@@ -23,12 +23,14 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
+global $smarty;
+function def(){
+global $smarty;
 define('_PS_SMARTY_DIR_', _PS_TOOL_DIR_.'smarty/');
 
 require_once(_PS_SMARTY_DIR_.'Smarty.class.php');
 
-global $smarty;
+
 $smarty = new Smarty();
 $smarty->setCompileDir(_PS_CACHE_DIR_.'smarty/compile');
 $smarty->setCacheDir(_PS_CACHE_DIR_.'smarty/cache');
@@ -82,7 +84,8 @@ smartyRegisterFunction($smarty, 'function', 'getAdminToken', array('Tools', 'get
 smartyRegisterFunction($smarty, 'function', 'displayAddressDetail', array('AddressFormat', 'generateAddressSmarty'));
 smartyRegisterFunction($smarty, 'function', 'getWidthSize', array('Image', 'getWidth'));
 smartyRegisterFunction($smarty, 'function', 'getHeightSize', array('Image', 'getHeight'));
-
+}
+def();
 
 function smartyDieObject($params, &$smarty)
 {
