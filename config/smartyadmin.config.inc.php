@@ -23,7 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
+function def(){
 global $smarty;
 $smarty->debugging = false;
 $smarty->debugging_ctrl = 'NONE';
@@ -31,9 +31,11 @@ $smarty->debugging_ctrl = 'NONE';
 /* Smarty should be in compile check mode in the BackOffice */
 $smarty->force_compile = false;
 $smarty->compile_check = true;
-
+}
+def();
 function smartyTranslate($params, &$smarty)
 {
+	global $smarty;
 	$htmlentities = !isset($params['js']);
 	$pdf = isset($params['pdf']);
 	$addslashes = (isset($params['slashes']) || isset($params['js']));
