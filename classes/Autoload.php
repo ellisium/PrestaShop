@@ -182,7 +182,7 @@ public function load($classname)
 			$this->getClassesFromDir('override/controllers/')
 		);
 		ksort($classes);
-		$content = '<?php return '.var_export($classes, true).'; ?>';
+		$content = '<?php return def_cache_class(); function def_cache_class(){return '.var_export($classes, true).'; }?>';
 
 		// Write classes index on disc to cache it
 		$filename = $this->root_dir.Autoload::INDEX_FILE;
