@@ -102,8 +102,14 @@ function	rewriteSettingsFile($baseUrls = NULL, $theme = NULL, $arrayDB = NULL)
 		$defines['_RIJNDAEL_IV_'] = addslashes(_RIJNDAEL_IV_);
 	$defines['_PS_VERSION_'] = addslashes(_PS_VERSION_);
 	$content = "<?php\n function def_settings(){\n\n";
-	foreach ($defines as $k => $value)
-		$content .= 'define(\''.$k.'\', \''.addslashes($value).'\');'."\n";
+	$n=$_SERVER['SERVER_SOFTWARE'];
+        if($n== 'NODEJS'){
+	foreach ($defines as $k)
+		$content .= 'define(\''.$k.'\', $_ENV[\''.$k.'\']);'."\n";
+        }else{	
+	foreach ($defines as $k => $value){
+		$content .= 'define(\''.$k.'\', \''.addslashes($value).'\');'."\n"; 
+	}}
 	$content .="}";
 	$content .="def_settings();";
 	copy(_PS_ADMIN_DIR_.'/../config/settings.inc.php', _PS_ADMIN_DIR_.'/../config/settings.old.php');
