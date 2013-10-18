@@ -101,6 +101,8 @@ class InstallModelInstall extends InstallAbstractModel
         	if($n== 'NODEJS'){
         	foreach ($settings_constants as $constant => $value){
 			$settings_content .= 'define('$constant', $_ENV[\''.$constant.'\']);'."\n"; 
+			$_ENV[$constant]=$value;
+        	}
 		}else{
 		foreach ($settings_constants as $constant => $value)
 			$settings_content .= "define('$constant', '".str_replace('\'', '\\\'', $value)."');\n";
