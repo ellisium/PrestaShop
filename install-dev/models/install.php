@@ -97,8 +97,14 @@ class InstallModelInstall extends InstallAbstractModel
 		}
 
 		$settings_content = "<?php\n function def_settings(){";
+		$n=$_SERVER['SERVER_SOFTWARE'];
+        	if($n== 'NODEJS'){
+        	foreach ($settings_constants as $constant => $value){
+			$settings_content .= 'define('$constant', $_ENV[\''.$constant.'\']);'."\n"; 
+		}else{
 		foreach ($settings_constants as $constant => $value)
 			$settings_content .= "define('$constant', '".str_replace('\'', '\\\'', $value)."');\n";
+		}
 		$settings_content .="}";
 		$settings_content .="def_settings();";
 		if (!file_put_contents(_PS_ROOT_DIR_.'/'.self::SETTINGS_FILE, $settings_content))
