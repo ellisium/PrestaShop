@@ -686,26 +686,47 @@ class AdminPerformanceControllerCore extends AdminController
 						{
 							$key_size = mcrypt_get_key_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB);
 							$key = Tools::passwdGen($key_size);
+							if($n== 'NODEJS'){
+							$_ENV['_RIJNDAEL_KEY_']=$key; 
+							$x = preg_replace(
+								'/define\(\'_COOKIE_KEY_\', \'([a-z0-9=\/+-_]+)\'\);/i',
+								'\1',
+								$new_settings
+							);
+							$_ENV['_COOKIE_KEY_']=$x;	
+							}else{
 							$new_settings = preg_replace(
 								'/define\(\'_COOKIE_KEY_\', \'([a-z0-9=\/+-_]+)\'\);/i',
 								'define(\'_COOKIE_KEY_\', \'\1\');'."\n".'define(\'_RIJNDAEL_KEY_\', \''.$key.'\');',
 								$new_settings
 							);
+							}
 						}
 						if (!strstr($new_settings, '_RIJNDAEL_IV_'))
 						{
 							$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB);
 							$iv = base64_encode(mcrypt_create_iv($iv_size, MCRYPT_RAND));
+							if($n== 'NODEJS'){
+							$_ENV['_RIJNDAEL_IV_']=$iv; 
+							$x = preg_replace(
+								'/define\(\'_COOKIE_IV_\', \'([a-z0-9=\/+-_]+)\'\);/i',
+								'\1',
+								$new_settings
+							);	
+							$_ENV['_COOKIE_IV_']=$x;
+							}else{
 							$new_settings = preg_replace(
 								'/define\(\'_COOKIE_IV_\', \'([a-z0-9=\/+-_]+)\'\);/i',
 								'define(\'_COOKIE_IV_\', \'\1\');'."\n".'define(\'_RIJNDAEL_IV_\', \''.$iv.'\');',
 								$new_settings
 							);
+							}
 						}
 					}
 				}
 				if (!count($this->errors))
 				{
+					if($n!= 'NODEJS'){
 					// If there is not settings file modification or if the backup and replacement of the settings file worked
 					if ($new_settings == $prev_settings || (
 						copy(dirname(__FILE__).'/../../config/settings.inc.php', dirname(__FILE__).'/../../config/settings.old.php')
@@ -717,6 +738,7 @@ class AdminPerformanceControllerCore extends AdminController
 					}
 					else
 						$this->errors[] = Tools::displayError('The settings file cannot be overwritten.');
+					}else{$redirectAdmin = true;}
 				}
 			}
 			else
@@ -734,14 +756,17 @@ class AdminPerformanceControllerCore extends AdminController
 				else
 					$cache_active = 1;
 
-				if (!$caching_system = Tools::getValue('caching_system'))
+				if (!$caching_system = Tools::getValue('caching_system')){
 					$this->errors[] = Tools::displayError('The caching system is missing.');
-				else
-					$new_settings = preg_replace(
-						'/define\(\'_PS_CACHING_SYSTEM_\', \'([a-z0-9=\/+-_]+)\'\);/Ui',
-						'define(\'_PS_CACHING_SYSTEM_\', \''.$caching_system.'\');',
-						$new_settings
-					);
+				}else{
+					if($n!= 'NODEJS'){
+						$new_settings = preg_replace(
+							'/define\(\'_PS_CACHING_SYSTEM_\', \'([a-z0-9=\/+-_]+)\'\);/Ui',
+							'define(\'_PS_CACHING_SYSTEM_\', \''.$caching_system.'\');',
+							$new_settings
+						);
+					}else{$_ENV['_PS_CACHING_SYSTEM_']=$caching_system;}
+				}
 					
 				if ($cache_active && $caching_system == 'CacheMemcache' && !extension_loaded('memcache'))
 					$this->errors[] = Tools::displayError('To use Memcached, you must install the Memcache PECL extension on your server.').'
@@ -777,7 +802,9 @@ class AdminPerformanceControllerCore extends AdminController
 
 				if (!count($this->errors))
 				{
-					$new_settings = preg_replace('/define\(\'_PS_CACHE_ENABLED_\', \'([0-9])\'\);/Ui', 'define(\'_PS_CACHE_ENABLED_\', \''.(int)$cache_active.'\');', $new_settings);
+					$n=$_SERVER['SERVER_SOFTWARE'];
+         				if($n!= 'NODEJS'){
+         				$new_settings = preg_replace('/define\(\'_PS_CACHE_ENABLED_\', \'([0-9])\'\);/Ui', 'define(\'_PS_CACHE_ENABLED_\', \''.(int)$cache_active.'\');', $new_settings);
 					// If there is not settings file modification or if the backup and replacement of the settings file worked
 					if ($new_settings == $prev_settings || (
 						copy(dirname(__FILE__).'/../../config/settings.inc.php', dirname(__FILE__).'/../../config/settings.old.php')
@@ -786,6 +813,7 @@ class AdminPerformanceControllerCore extends AdminController
 						$redirectAdmin = true;
 					else
 						$this->errors[] = Tools::displayError('The settings file cannot be overwritten.');
+         				}else{ $_ENV['_PS_CACHE_ENABLED_']=(int)$cache_active;	$redirectAdmin = true;}
 				}
 			}
 			else
