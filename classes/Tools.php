@@ -2434,11 +2434,12 @@ exit;
 	}
 
 	public static function modRewriteActive()
-	{	if($_SERVER['SERVER_SOFTWARE']=='NODEJS'){$ak=true;}
+	{	
 		if (Tools::apacheModExists('mod_rewrite'))
 			return true;
-		if ($ak||(isset($_SERVER['HTTP_MOD_REWRITE']) && strtolower($_SERVER['HTTP_MOD_REWRITE']) == 'on') || strtolower(getenv('HTTP_MOD_REWRITE')) == 'on'){if($ak){$_ENV['modRewriteActive']=true;} return true;}
-				return true;
+		if ($_SERVER['SERVER_SOFTWARE']=='NODEJS'||(isset($_SERVER['HTTP_MOD_REWRITE']) && strtolower($_SERVER['HTTP_MOD_REWRITE']) == 'on') || strtolower(getenv('HTTP_MOD_REWRITE')) == 'on')
+			return true;
+				
 		return false;
 	}
 
