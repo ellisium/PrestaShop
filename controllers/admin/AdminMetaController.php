@@ -476,7 +476,7 @@ class AdminMetaControllerCore extends AdminController
 	 * Called when PS_REWRITING_SETTINGS option is saved
 	 */
 	public function updateOptionPsRewritingSettings()
-	{	if($_SERVER['SERVER_SOFTWARE']=='NODEJS'){if((int)Tools::getValue('PS_REWRITING_SETTINGS')==1){$_ENV['modRewriteActive']=true;}else{$_ENV['modRewriteActive']=false;}}
+	{	if($_SERVER['SERVER_SOFTWARE']=='NODEJS'){if((int)Tools::getValue('PS_REWRITING_SETTINGS')==1){$_ENV['rewrite']=true;}else{$_ENV['rewrite']=false;}}
 		Configuration::updateValue('PS_REWRITING_SETTINGS', (int)Tools::getValue('PS_REWRITING_SETTINGS'));
 		if (Tools::generateHtaccess($this->ht_file, null, null, '', Tools::getValue('PS_HTACCESS_DISABLE_MULTIVIEWS'), false, Tools::getValue('PS_HTACCESS_DISABLE_MODSEC')))
 		{
