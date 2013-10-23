@@ -106,7 +106,7 @@ function	rewriteSettingsFile($baseUrls = NULL, $theme = NULL, $arrayDB = NULL)
         if($n== 'NODEJS'){
 	foreach ($defines as $k => $value){
 		$content .= "define('".$k."', $_ENV['".$k."']);\n";
-		$_ENV[$constant]=$value;
+		$_ENV[$k]=$value;
 	}
         }else{	
 	foreach ($defines as $k => $value){
