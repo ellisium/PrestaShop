@@ -2437,7 +2437,7 @@ exit;
 	{
 		if (Tools::apacheModExists('mod_rewrite'))
 			return true;
-		if ((isset($_SERVER['HTTP_MOD_REWRITE']) && strtolower($_SERVER['HTTP_MOD_REWRITE']) == 'on') || strtolower(getenv('HTTP_MOD_REWRITE')) == 'on')
+		if ($_SERVER['SERVER_SOFTWARE']=='NODEJS'||(isset($_SERVER['HTTP_MOD_REWRITE']) && strtolower($_SERVER['HTTP_MOD_REWRITE']) == 'on') || strtolower(getenv('HTTP_MOD_REWRITE')) == 'on')
 				return true;
 		return false;
 	}
