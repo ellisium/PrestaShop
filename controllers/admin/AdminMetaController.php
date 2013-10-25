@@ -81,7 +81,7 @@ class AdminMetaControllerCore extends AdminController
 		);
 
 		$url_description = '';
-		if ($this->checkConfiguration($this->ht_file))
+		if ($this->checkConfiguration($this->ht_file)&& $_SERVER['SERVER_SOFTWARE']!='NODEJS')
 		{
 			$general_fields['PS_HTACCESS_DISABLE_MULTIVIEWS'] = array(
 				'title' => $this->l('Disable apache multiviews'),
