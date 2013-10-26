@@ -447,7 +447,7 @@ class AdminMetaControllerCore extends AdminController
 	 */
 	public function checkAndUpdateRoute($route_id)
 	{
-		$default_routes = Dispatcher::getInstance()->default_routes;
+		$default_routes = ($_SERVER['SERVER_SOFTWARE']=='NODEJS')?Dispatcher::getInstance()->akumajs_routes :Dispatcher::getInstance()->default_routes;
 		if (!isset($default_routes[$route_id]))
 			return;
 
