@@ -211,8 +211,8 @@ class AdminMetaControllerCore extends AdminController
 	public function addFieldRoute($route_id, $title)
 	{
 		$keywords = array();
-		($_SERVER['SERVER_SOFTWARE']=='NODEJS')?($x= Dispatcher::getInstance()->akumajs_routes[$route_id]['keywords'] && $xx=Dispatcher::getInstance()->akumajs_routes[$route_id]['rule']) :($x=Dispatcher::getInstance()->default_routes[$route_id]['keywords'] && $xx=Dispatcher::getInstance()->default_routes[$route_id]['rule']);
-		foreach ($x as $keyword => $data)
+		$x=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?Dispatcher::getInstance()->akumajs_routes:Dispatcher::getInstance()->default_routes;
+		foreach ($x[$route_id]['keywords'] as $keyword => $data)
 			$keywords[] = ((isset($data['param'])) ? '<span class="red">'.$keyword.'*</span>' : $keyword);
 
 		$this->fields_options['routes']['fields']['PS_ROUTE_'.$route_id] = array(
@@ -221,7 +221,7 @@ class AdminMetaControllerCore extends AdminController
 			'validation' => 'isString',
 			'type' => 'text',
 			'size' => 70,
-			'defaultValue' => $xx,
+			'defaultValue' => $x[$route_id]['rule'],
 		);
 	}
 
