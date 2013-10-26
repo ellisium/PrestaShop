@@ -663,7 +663,7 @@ class DispatcherCore
 	public function validateRoute($route_id, $rule, &$errors = array())
 	{
 		$errors = array();
-		var $x=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?$this->akumajs_routes[$route_id]:$this->default_routes[$route_id];
+		$x=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?$this->akumajs_routes[$route_id]:$this->default_routes[$route_id];
 		if (!isset($x))
 			return false;
 
@@ -702,7 +702,7 @@ class DispatcherCore
 		$route = $this->routes[$id_shop][$id_lang][$route_id];
 		// Check required fields
 		$query_params = isset($route['params']) ? $route['params'] : array();
-		var $x=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?$this->akumajs_routes[$route_id]:$this->default_routes[$route_id];
+		$x=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?$this->akumajs_routes[$route_id]:$this->default_routes[$route_id];
 		foreach ($route['keywords'] as $key => $data)
 		{
 			if (!$data['required'])
