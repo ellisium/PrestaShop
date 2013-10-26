@@ -182,11 +182,19 @@ class AdminMetaControllerCore extends AdminController
 		// Add display route options to options form
 		if (Configuration::get('PS_REWRITING_SETTINGS'))
 		{
+			if($_SERVER['SERVER_SOFTWARE']!='NODEJS'){
 			$this->fields_options['routes'] = array(
 				'title' =>	$this->l('Schema of URLs'),
 				'description' => $this->l('Change the pattern of your links. There are some available keywords for each route listed below, keywords with * are required. To add a keyword in your URL use {keyword} syntax. You can add text before or after the keyword if the keyword is not empty with syntax {prepend:keyword:append}. For example {-hey-:meta_title} will add "-hey-my-title" in the URL if the meta title is set. Friendly URL and rewriting Apache option must be activated on your web server to use this functionality.'),
 				'fields' => array()
 			);
+			}else{
+			$this->fields_options['routes'] = array(
+				'title' =>	$this->l('Schema of URLs'),
+				'description' => $this->l('Refer to express 3 => "http://expressjs.com"'),
+				'fields' => array()
+			);
+			}
 			$this->addAllRouteFields();
 		}
 
