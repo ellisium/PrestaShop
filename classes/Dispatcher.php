@@ -479,20 +479,21 @@ class DispatcherCore
 		
 		// Load custom routes from modules
 		$modules_routes = Hook::exec('moduleRoutes', array('id_shop' => $id_shop), null, true, false);
+		var $x=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?$this->akumajs_routes:$this->default_routes;
 		if (is_array($modules_routes) && count($modules_routes))
 			foreach($modules_routes as $module_route)
 				foreach($module_route as $route => $route_details)
 					if (array_key_exists('controller', $route_details) && array_key_exists('rule', $route_details) 
 						&& array_key_exists('keywords', $route_details) && array_key_exists('params', $route_details))
 					{
-						if (!isset($this->default_routes[$route]))
-						$this->default_routes[$route] = array();
-						$this->default_routes[$route] = array_merge($this->default_routes[$route], $route_details);
+						if (!isset($x[$route]))
+						$x[$route] = array();
+						$x[$route] = array_merge($x[$route], $route_details);
 					}
 		
 		// Set default routes
 		foreach (Language::getLanguages() as $lang)
-			foreach ($this->default_routes as $id => $route)
+			foreach ($x as $id => $route)
 				$this->addRoute(
 					$id,
 					$route['rule'],
@@ -533,7 +534,7 @@ class DispatcherCore
 				);
 
 			// Load custom routes
-			foreach ($this->default_routes as $route_id => $route_data)
+			foreach ($x as $route_id => $route_data)
 				if ($custom_route = Configuration::get('PS_ROUTE_'.$route_id, null, null, $id_shop))
 					foreach (Language::getLanguages() as $lang)
 						$this->addRoute(
@@ -662,10 +663,11 @@ class DispatcherCore
 	public function validateRoute($route_id, $rule, &$errors = array())
 	{
 		$errors = array();
-		if (!isset($this->default_routes[$route_id]))
+		var $x=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?$this->akumajs_routes[$route_id]:$this->default_routes[$route_id];
+		if (!isset($x))
 			return false;
 
-		foreach ($this->default_routes[$route_id]['keywords'] as $keyword => $data)
+		foreach ($x['keywords'] as $keyword => $data)
 			if (isset($data['param']) && !preg_match('#\{([^{}]*:)?'.$keyword.'(:[^{}]*)?\}#', $rule))
 				$errors[] = $keyword;
 
@@ -700,6 +702,7 @@ class DispatcherCore
 		$route = $this->routes[$id_shop][$id_lang][$route_id];
 		// Check required fields
 		$query_params = isset($route['params']) ? $route['params'] : array();
+		var $x=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?$this->akumajs_routes[$route_id]:$this->default_routes[$route_id];
 		foreach ($route['keywords'] as $key => $data)
 		{
 			if (!$data['required'])
@@ -707,8 +710,8 @@ class DispatcherCore
 
 			if (!array_key_exists($key, $params))
 				die('Dispatcher::createUrl() miss required parameter "'.$key.'" for route "'.$route_id.'"');
-			if (isset($this->default_routes[$route_id]))
-				$query_params[$this->default_routes[$route_id]['keywords'][$key]['param']] = $params[$key];
+			if (isset($x))
+				$query_params[$x['keywords'][$key]['param']] = $params[$key];
 		}
 
 		// Build an url which match a route
@@ -722,7 +725,7 @@ class DispatcherCore
 			{
 				if (!isset($route['keywords'][$key]))
 				{
-					if (!isset($this->default_routes[$route_id]['keywords'][$key]))
+					if (!isset($x['keywords'][$key]))
 						$add_param[$key] = $value;
 				}
 				else
@@ -743,7 +746,7 @@ class DispatcherCore
 		{
 			$add_params = array();
 			foreach ($params as $key => $value)
-				if (!isset($route['keywords'][$key]) && !isset($this->default_routes[$route_id]['keywords'][$key]))
+				if (!isset($route['keywords'][$key]) && !isset($x['keywords'][$key]))
 					$add_params[$key] = $value;
 
 			if (!empty($route['controller']))
