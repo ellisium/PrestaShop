@@ -667,8 +667,11 @@ class DispatcherCore
 		if (!isset($x))
 			return false;
 
+		$r1=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?'/^:':'#\{([^{}]*:)?';
+		$r2=($_SERVER['SERVER_SOFTWARE']=='NODEJS')?'/':'#\{([^{}]*:)?';
+		
 		foreach ($x['keywords'] as $keyword => $data)
-			if (isset($data['param']) && !preg_match('#\{([^{}]*:)?'.$keyword.'(:[^{}]*)?\}#', $rule))
+			if (isset($data['param']) && !preg_match($r1.$keyword.$r2, $rule))
 				$errors[] = $keyword;
 
 		return (count($errors)) ? false : true;
