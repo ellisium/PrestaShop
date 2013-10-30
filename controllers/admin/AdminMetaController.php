@@ -191,7 +191,7 @@ class AdminMetaControllerCore extends AdminController
 			}else{
 			$this->fields_options['routes'] = array(
 				'title' =>	$this->l('Schema of URLs'),
-				'description' => $this->l('Refer to express 3 => "http://expressjs.com"'),
+				'description' => $this->l('Refer to express 3 => "http://expressjs.com/api.html#app.param". Change the pattern of your links. There are some available keywords for each route listed below, keywords with * are required. To add a keyword in your URL use /:keyword syntax.'),
 				'fields' => array()
 			);
 			}
