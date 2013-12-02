@@ -162,7 +162,7 @@ class TranslateCore
 			}
 
 			$current_key = strtolower('<{'.$name.'}'._THEME_NAME_.'>'.$source).'_'.$key;
-			$default_key = strtolower('<{'.$name.'}prestashop>'.$source).'_'.$key;
+			$default_key = strtolower('<{'.$name.'}prestashop>'.$name).'_'.$key;
 
 			if (isset($_MODULES[$current_key]))
 				$ret = stripslashes($_MODULES[$current_key]);
